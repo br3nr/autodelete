@@ -1,27 +1,18 @@
 import os
 import time
-import glob 
 
 
 def autodelete():
-    for folder, subs, files in os.walk("."):
+    for folder, subs, files in os.walk("C:\\Users\\max\\Desktop"):
 
         print(bcolors.WARNING + folder + bcolors.ENDC)
         for file in files:
            
-            age = os.path.getctime(os.path.join(folder,file))
-
-            clock = time.time()
-
-            new = clock - age
-
-            print(time.ctime(new))
-
+            sub_time = time.time() - os.path.getctime(os.path.join(folder,file))
+            time_str = time.ctime(sub_time).split()
+            
             print(bcolors.OKCYAN + file + bcolors.ENDC)
-
-
-
-
+            print("Days old = " + time_str[2])
 
 
 class bcolors:
