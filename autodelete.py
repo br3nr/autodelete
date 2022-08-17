@@ -1,18 +1,34 @@
 import os
 import time
+import datetime
+
+#"C:\\Users\\max\\Desktop"
+def get_days(dtime):
+
+    days, months = dtime.day, dtime.month * 30
+    return days + months
 
 
 def autodelete():
-    for folder, subs, files in os.walk("C:\\Users\\max\\Desktop"):
+    for folder, subs, files in os.walk("C:\\Users\\max\\Pictures"):
 
         print(bcolors.WARNING + folder + bcolors.ENDC)
         for file in files:
            
-            sub_time = time.time() - os.path.getctime(os.path.join(folder,file))
-            time_str = time.ctime(sub_time).split()
+            time_str = time.ctime(os.path.getctime(os.path.join(folder,file)))
+            curr_time = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y") 
+            format_time = datetime.datetime.strptime(time_str, "%a %b %d %H:%M:%S %Y")
             
-            print(bcolors.OKCYAN + file + bcolors.ENDC)
-            print("Days old = " + time_str[2])
+            file_age = get_days(curr_time) - get_days(format_time)
+            
+
+            if file_age > 5:
+                print(bcolors.OKCYAN + file + bcolors.FAIL + " : " + str(file_age) + " DAYS OLD"  + bcolors.ENDC) 
+            else:
+                print(bcolors.OKCYAN + file + bcolors.OKGREEN + " : " + str(file_age) + " DAYS OLD"  + bcolors.ENDC) 
+
+            
+            
 
 
 class bcolors:
